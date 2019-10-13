@@ -17,7 +17,6 @@ const projects = new FnApi({
       projects: []
     }
   })
-  // Step 3
   .add({
     request: ({ projectId } : any) => client.getProject(projectId);
     property: "project",
@@ -25,6 +24,5 @@ const projects = new FnApi({
   // Add more request definitions here ..
   .getStore()
 
-// Step 5
-export default projects
+export default projects;
 ```
