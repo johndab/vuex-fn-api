@@ -1,12 +1,12 @@
 {
-  "name": "vuex-rest-api",
-  "version": "2.10.0",
+  "name": "@ilabo/vuex-fn-api",
+  "version": "0.1.0",
   "description": "A helper utility to simplify the usage of REST APIs with Vuex. Based on axios.",
   "author": "Jan Dabrowski",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/johndab/vuex-fn-api"
+    "url": "git+https://github.com/johndab/vuex-fn-api.git"
   },
   "dependencies": {
     "lodash.clonedeep": "4.5.x"
@@ -25,5 +25,14 @@
     "README.md"
   ],
   "main": "dist/index.js",
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "bugs": {
+    "url": "https://github.com/johndab/vuex-fn-api/issues"
+  },
+  "homepage": "https://github.com/johndab/vuex-fn-api#readme",
+  "keywords": [
+    "api",
+    "promise",
+    "vuex"
+  ]
 }
