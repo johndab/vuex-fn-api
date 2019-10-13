@@ -2,7 +2,7 @@
 
 ## Installation
 ```bash
-npm install vuex-fn-api
+npm install @ilabo/vuex-fn-api
 ```
 
 ```js
