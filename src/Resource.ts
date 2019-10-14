@@ -48,8 +48,6 @@ export class Resource {
   }
 
   add(options: ResourceActionOptions): Resource {
-    options.property = options.property || null
-
     this.actions[options.action] = {
       request: options.request,
       property: options.property,

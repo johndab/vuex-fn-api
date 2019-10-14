@@ -52,11 +52,11 @@ class StoreCreator {
 
     const actions = this.resource.actions
     Object.keys(actions).forEach((action) => {
-      const { property, commitString, beforeRequest, onSuccess, onError, axios } = actions[action]
+      const { property, commitString, beforeRequest, onSuccess, onError } = actions[action]
 
       mutations[`${commitString}`] = (state, actionParams) => {
 
-        if (property !== null) {
+        if (property) {
           state.pending[property] = true
           state.error[property] = null
         }
@@ -67,27 +67,27 @@ class StoreCreator {
       }
       mutations[`${commitString}_${this.successSuffix}`] = (state, { payload, actionParams }) => {
 
-        if (property !== null) {
+        if (property) {
           state.pending[property] = false
           state.error[property] = null
         }
 
         if (onSuccess) {
           onSuccess(state, payload, actionParams)
-        } else if (property !== null) {
-          state[property] = payload.data
+        } else if (property) {
+          state[property] = payload
         }
       }
       mutations[`${commitString}_${this.errorSuffix}`] = (state, { payload, actionParams }) => {
 
-        if (property !== null) {
+        if (property) {
           state.pending[property] = false
           state.error[property] = payload
         }
 
         if (onError) {
           onError(state, payload, actionParams)
-        } else if (property !== null) {
+        } else if (property) {
 
           // sets property to it's default value in case of an error
           state[property] = defaultState[property]
@@ -105,7 +105,7 @@ class StoreCreator {
     Object.keys(actions).forEach((action) => {
       const { dispatchString, commitString, request } = actions[action]
 
-      storeActions[dispatchString] = async ({ commit }, actionParams) => {
+      storeActions[dispatchString] = async ({ commit }, actionParams = {}) => {
         commit(commitString, actionParams)
         return request(actionParams)
           .then((response) => {

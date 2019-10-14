@@ -11,7 +11,6 @@ var Resource = /** @class */ (function () {
         this.axios = options.axios || axios_1.default;
     }
     Resource.prototype.add = function (options) {
-        options.property = options.property || null;
         this.actions[options.action] = {
             request: options.request,
             property: options.property,

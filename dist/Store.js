@@ -73,9 +73,9 @@ var StoreCreator = /** @class */ (function () {
         var mutations = {};
         var actions = this.resource.actions;
         Object.keys(actions).forEach(function (action) {
-            var _a = actions[action], property = _a.property, commitString = _a.commitString, beforeRequest = _a.beforeRequest, onSuccess = _a.onSuccess, onError = _a.onError, axios = _a.axios;
+            var _a = actions[action], property = _a.property, commitString = _a.commitString, beforeRequest = _a.beforeRequest, onSuccess = _a.onSuccess, onError = _a.onError;
             mutations["" + commitString] = function (state, actionParams) {
-                if (property !== null) {
+                if (property) {
                     state.pending[property] = true;
                     state.error[property] = null;
                 }
@@ -85,27 +85,27 @@ var StoreCreator = /** @class */ (function () {
             };
             mutations[commitString + "_" + _this.successSuffix] = function (state, _a) {
                 var payload = _a.payload, actionParams = _a.actionParams;
-                if (property !== null) {
+                if (property) {
                     state.pending[property] = false;
                     state.error[property] = null;
                 }
                 if (onSuccess) {
                     onSuccess(state, payload, actionParams);
                 }
-                else if (property !== null) {
-                    state[property] = payload.data;
+                else if (property) {
+                    state[property] = payload;
                 }
             };
             mutations[commitString + "_" + _this.errorSuffix] = function (state, _a) {
                 var payload = _a.payload, actionParams = _a.actionParams;
-                if (property !== null) {
+                if (property) {
                     state.pending[property] = false;
                     state.error[property] = payload;
                 }
                 if (onError) {
                     onError(state, payload, actionParams);
                 }
-                else if (property !== null) {
+                else if (property) {
                     // sets property to it's default value in case of an error
                     state[property] = defaultState[property];
                 }
@@ -121,6 +121,7 @@ var StoreCreator = /** @class */ (function () {
             var _a = actions[action], dispatchString = _a.dispatchString, commitString = _a.commitString, request = _a.request;
             storeActions[dispatchString] = function (_a, actionParams) {
                 var commit = _a.commit;
+                if (actionParams === void 0) { actionParams = {}; }
                 return __awaiter(_this, void 0, void 0, function () {
                     var _this = this;
                     return __generator(this, function (_b) {
