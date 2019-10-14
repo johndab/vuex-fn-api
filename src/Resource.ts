@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios"
+import { GetterTree } from "vuex"
 
 export interface ResourceAction {
   request: (params: any) => Promise<any>
@@ -25,18 +26,24 @@ export interface ResourceActionOptions {
 }
 
 export interface ResourceOptions {
+  namespaced?: boolean,
   state?: object,
   axios?: AxiosInstance,
+  getters?: GetterTree<any, any>
 }
 
 export class Resource {
+  public namespaced: boolean
   public actions: ResourceActionMap = {}
   public state: object
+  public getters: GetterTree<any, any>
   public axios: AxiosInstance
 
   constructor(options: ResourceOptions) {
     this.actions = {}
+    this.namespaced = options.namespaced || false
     this.state = options.state || {}
+    this.getters = options.getters || {}
     this.axios = options.axios || axios
   }
 

@@ -1,25 +1,13 @@
 import Resource from "./Resource"
+import { ActionTree, MutationTree, Module, GetterTree } from 'vuex';
 import * as cloneDeep from "lodash.clonedeep"
 
-export interface Store {
-  state: Object | Function
-  mutations: MutationMap
-  actions: ActionMap
-}
-
-export interface ActionMap {
-  [action: string]: Function
-}
-
-export interface MutationMap {
-  [action: string]: Function
-}
 
 class StoreCreator {
   private resource: Resource
   private successSuffix: string = "SUCCEEDED"
   private errorSuffix: string = "FAILED"
-  public store: Store
+  public store: Module<any, any>
 
   constructor(resource: Resource) {
     this.resource = resource
@@ -55,11 +43,11 @@ class StoreCreator {
     return state
   }
 
-  createGetter(): Object {
-    return {}
+  createGetters(): GetterTree<any, any> {
+    return this.resource.getters;
   }
 
-  createMutations(defaultState: Object): MutationMap {
+  createMutations(defaultState: Object): MutationTree<any> {
     const mutations = {}
 
     const actions = this.resource.actions
@@ -110,7 +98,7 @@ class StoreCreator {
     return mutations
   }
 
-  createActions(): ActionMap {
+  createActions(): ActionTree<any, any> {
     const storeActions = {}
 
     const actions = this.resource.actions
@@ -137,17 +125,19 @@ class StoreCreator {
     return storeActions
   }
 
-  createStore(): Store {
+  createStore(): Module<any, any> {
     const state = this.createState()
 
     return {
       state,
+      namespaced: this.resource.namespaced,
       mutations: this.createMutations(state),
-      actions: this.createActions()
+      actions: this.createActions(),
+      getters: this.createGetters()
     }
   }
 }
 
-export function createStore(resource: Resource): Store {
+export function createStore(resource: Resource): Module<any, any> {
   return new StoreCreator(resource).store
 }

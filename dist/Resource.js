@@ -5,7 +5,9 @@ var Resource = /** @class */ (function () {
     function Resource(options) {
         this.actions = {};
         this.actions = {};
+        this.namespaced = options.namespaced || false;
         this.state = options.state || {};
+        this.getters = options.getters || {};
         this.axios = options.axios || axios_1.default;
     }
     Resource.prototype.add = function (options) {

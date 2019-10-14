@@ -65,8 +65,8 @@ var StoreCreator = /** @class */ (function () {
         });
         return state;
     };
-    StoreCreator.prototype.createGetter = function () {
-        return {};
+    StoreCreator.prototype.createGetters = function () {
+        return this.resource.getters;
     };
     StoreCreator.prototype.createMutations = function (defaultState) {
         var _this = this;
@@ -147,8 +147,10 @@ var StoreCreator = /** @class */ (function () {
         var state = this.createState();
         return {
             state: state,
+            namespaced: this.resource.namespaced,
             mutations: this.createMutations(state),
-            actions: this.createActions()
+            actions: this.createActions(),
+            getters: this.createGetters()
         };
     };
     return StoreCreator;

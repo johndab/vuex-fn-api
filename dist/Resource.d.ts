@@ -1,4 +1,5 @@
 import { AxiosInstance } from "axios";
+import { GetterTree } from "vuex";
 export interface ResourceAction {
     request: (params: any) => Promise<any>;
     property: string;
@@ -21,12 +22,16 @@ export interface ResourceActionOptions {
     onError?: Function;
 }
 export interface ResourceOptions {
+    namespaced?: boolean;
     state?: object;
     axios?: AxiosInstance;
+    getters?: GetterTree<any, any>;
 }
 export declare class Resource {
+    namespaced: boolean;
     actions: ResourceActionMap;
     state: object;
+    getters: GetterTree<any, any>;
     axios: AxiosInstance;
     constructor(options: ResourceOptions);
     add(options: ResourceActionOptions): Resource;

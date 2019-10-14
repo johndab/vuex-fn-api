@@ -1,4 +1,5 @@
-import { createStore, Store } from "./Store"
+import { Module } from "vuex";
+import { createStore } from "./Store"
 import { Resource, ResourceActionOptions, ResourceOptions } from "./Resource"
 
 export class Vapi {
@@ -14,7 +15,7 @@ export class Vapi {
     return this
   }
 
-  getStore(): Store {
+  getStore(): Module<any, any> {
     return createStore(this.resource)
   }
 }
