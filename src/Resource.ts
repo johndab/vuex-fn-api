@@ -16,13 +16,13 @@ export interface ResourceActionMap {
   [action: string]: ResourceAction
 }
 
-export interface ResourceActionOptions {
+export interface ResourceActionOptions<REQ, RES> {
   action: string
-  request: (params: any) => Promise<any>
+  request: (params: REQ) => Promise<RES>
   property?: string
-  beforeRequest?: Function
-  onSuccess?: Function
-  onError?: Function
+  beforeRequest?: (s: any, req: REQ) => void
+  onSuccess?: (s: any, res: RES, req: REQ) => void
+  onError?: (s: any, res: RES, req: REQ) => void
 }
 
 export interface ResourceOptions {
@@ -47,7 +47,7 @@ export class Resource {
     this.axios = options.axios || axios
   }
 
-  add(options: ResourceActionOptions): Resource {
+  add<REQ, RES>(options: ResourceActionOptions<REQ, RES>): Resource {
     this.actions[options.action] = {
       request: options.request,
       property: options.property,

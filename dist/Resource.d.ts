@@ -13,13 +13,13 @@ export interface ResourceAction {
 export interface ResourceActionMap {
     [action: string]: ResourceAction;
 }
-export interface ResourceActionOptions {
+export interface ResourceActionOptions<REQ, RES> {
     action: string;
-    request: (params: any) => Promise<any>;
+    request: (params: REQ) => Promise<RES>;
     property?: string;
-    beforeRequest?: Function;
-    onSuccess?: Function;
-    onError?: Function;
+    beforeRequest?: (s: any, req: REQ) => void;
+    onSuccess?: (s: any, res: RES, req: REQ) => void;
+    onError?: (s: any, res: RES, req: REQ) => void;
 }
 export interface ResourceOptions {
     namespaced?: boolean;
@@ -34,7 +34,7 @@ export declare class Resource {
     getters: GetterTree<any, any>;
     axios: AxiosInstance;
     constructor(options: ResourceOptions);
-    add(options: ResourceActionOptions): Resource;
+    add<REQ, RES>(options: ResourceActionOptions<REQ, RES>): Resource;
     private getDispatchString;
     private getCommitString;
 }

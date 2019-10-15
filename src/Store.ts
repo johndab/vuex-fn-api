@@ -3,11 +3,18 @@ import { ActionTree, MutationTree, Module, GetterTree } from 'vuex';
 import * as cloneDeep from "lodash.clonedeep"
 
 
+export interface FullModule<S, R> extends Module<S, R> {
+  state: S | (() => S);
+  getters: GetterTree<S, R>;
+  actions: ActionTree<S, R>;
+  mutations: MutationTree<S>;
+}
+
 class StoreCreator {
   private resource: Resource
   private successSuffix: string = "SUCCEEDED"
   private errorSuffix: string = "FAILED"
-  public store: Module<any, any>
+  public store: FullModule<any, any>
 
   constructor(resource: Resource) {
     this.resource = resource
@@ -125,7 +132,7 @@ class StoreCreator {
     return storeActions
   }
 
-  createStore(): Module<any, any> {
+  createStore(): FullModule<any, any> {
     const state = this.createState()
 
     return {
@@ -138,6 +145,6 @@ class StoreCreator {
   }
 }
 
-export function createStore(resource: Resource): Module<any, any> {
+export function createStore(resource: Resource): FullModule<any, any> {
   return new StoreCreator(resource).store
 }

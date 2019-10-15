@@ -1,9 +1,9 @@
-import { Module } from "vuex";
+import { FullModule } from "./Store";
 import { ResourceActionOptions, ResourceOptions } from "./Resource";
 export declare class Vapi {
     private resource;
     constructor(options: ResourceOptions);
-    add(options: ResourceActionOptions): Vapi;
-    getStore(): Module<any, any>;
+    add<REQ, RES>(options: ResourceActionOptions<REQ, RES>): Vapi;
+    getStore(): FullModule<any, any>;
 }
 export default Vapi;
